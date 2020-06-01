@@ -41,15 +41,15 @@ class Interval(object):
 ##### Chord #####
 class Chord(Interval):
   inversion = 0 
-  start = 4
+  offset = 48
   def __init__(self, notes):
     self.name = ""
     super().__init__(notes)
 
 ##### Scale #####
 class Scale(Interval):
+  # A few scales have different pattern on the way down:
   diffDown = False
-
   def __init__(self, pattern):
     self.offset = 48
     self.name = pattern  
@@ -58,8 +58,6 @@ class Scale(Interval):
     for n in self.pattern:
       self.notes.append(Note(allNotes[n + self.offset][0], \
         allNotes[n + self.offset][2]))
-    #for n in self.pattern:
-      #self.notes.append(Note(nd[n + self.offset]))
 
   #TODO Need to add descending:
   def playScale(self, seconds=.25):
@@ -73,9 +71,8 @@ class Scale(Interval):
 
 def main():
   ##### SCALE TEST #####
-  maj = Scale('lydian')
-  #print(maj.hi)
-  maj.playScale()
+  sc = Scale('lydian')
+  sc.playScale()
 
 
 if __name__ == "__main__":

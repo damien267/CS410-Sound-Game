@@ -28,9 +28,6 @@ class Note(object):
 
     self.name = name
     self.freq = freq
-    #self.name = note[0]
-    #self.octave = note[1]
-    #self.freq = note[2]
 
   def calcSine(self, seconds):
     x = np.linspace(0, seconds, int(seconds * SAMPLE_RATE), False)

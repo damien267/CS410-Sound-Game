@@ -1,83 +1,82 @@
 import numpy as np
 import simpleaudio as sa
 import math
+from note import *
+from data import *
 
-import note
-
-SAMPLE_RATE = note.SAMPLE_RATE
+def play(audio):
+  play = sa.play_buffer(audio, 1, 2, SAMPLE_RATE)
+  play.wait_done()
 
 ##### Interval #####
 class Interval(object):
-
-  octave = 4
-
-  def __init__(self, name, notes):
-    self.name = name
+  def __init__(self, theNotes):
+    # freq_to_index returns float, for whatever reason:
+    self.lo = freq_to_index[theNotes[0]] 
+    self.hi = freq_to_index[theNotes[len(theNotes) - 1]]
+    self.name = intrvl[(int(self.hi) - int(self.lo)) % 12]
+    # These are Note objects:
     self.notes = []
-	
-  def sumSines(self, notes, seconds):
+    for note in theNotes:
+      self.notes.append(Note(freq_to_note[note], note))
+
+  def sumSines(self, seconds):
     num_samples = seconds * SAMPLE_RATE
     y = np.zeros(num_samples)
-    for anote in notes:
-      sound = anote.calcSine(anote.freq, seconds)
+    for n in self.notes:
+      sound = n.calcSine(seconds)
       y += sound
-    audio = note.envelope(seconds) * y * (2**15 - 1) /np.max(np.abs(y))
+    #Not sure if the floor division is a problem:
+    audio = envelope(seconds) * y * (2**15 - 1) // np.max(np.abs(y))
     audio = audio.astype(np.int16)
     return audio
   
-  def playArpeg(self, notes, seconds):
-    env = envelope(seconds)
-    for note in notes:
-      aNote = Note(note[0], note[1], note[2], seconds)
-      audio = aNote.calcAudio()
-      play(audio)
-      
-  def play(self, audio):
-    play = sa.play_buffer(audio, 1, 2, SAMPLE_RATE)
-    play.wait_done()
+  def playArpeg(self, seconds=.25):
+    for note in self.notes:
+      n = note.calcAudio(seconds)
+      #TODO Needs to play more smoothly:
+      play(n)
 
+# TODO Need to add chords to data.py
 ##### Chord #####
-
 class Chord(Interval):
-  inversion = 1
+  inversion = 0 
   start = 4
-  def __init__(self, name, notes):
-	  pass	
+  def __init__(self, notes):
+    self.name = ""
+    super().__init__(notes)
+
 ##### Scale #####
-
 class Scale(Interval):
-	
   diffDown = False
-  patterns = { 'major' : [0,2,4,5,7,9,11,12], 'dorian' : [0,2,3,5,7,9,10,12] }
 
-  def __init__(self, name, notes, pattern):
+  def __init__(self, pattern):
+    self.offset = 48
+    self.name = pattern  
     self.pattern = patterns[pattern]
+    self.notes = []
+    for n in self.pattern:
+      self.notes.append(Note(allNotes[n + self.offset][0], \
+        allNotes[n + self.offset][2]))
+    #for n in self.pattern:
+      #self.notes.append(Note(nd[n + self.offset]))
 
-	#def playScale(pattern):
-  #  for aNote in pattern:
-
+  #TODO Need to add descending:
+  def playScale(self, seconds=.25):
+    aScale = []
+    for n in self.notes:
+       audio = n.calcAudio(seconds)
+       aScale.append(audio)
+    #TODO Needs to play more smoothly:
+    for s in aScale:
+      play(s)
 
 def main():
+  ##### SCALE TEST #####
+  maj = Scale('lydian')
+  #print(maj.hi)
+  maj.playScale()
 
-  aNote = note.Note(note.allNotes[48][0], note.allNotes[48][1], 
-      note.allNotes[48][2], 1)
-  audio = aNote.calcAudio(aNote.freq, aNote.seconds)
-  aNote.playNote(audio)
-
-  n1 = note.Note(note.allNotes[33][0], note.allNotes[33][1], 
-      note.allNotes[33][2], 1)
-  n2 = note.Note(note.allNotes[37][0], note.allNotes[37][1], 
-      note.allNotes[37][2], 1)
-  I1 = Interval("intrvl", [n1,n2]) 
-  #audio = I1.sumSines([n1, n2], 2)
-  audio = I1.sumSines([n1, n2], 1)
-  I1.play(audio)
-
-  n3 = note.Note(note.allNotes[40][0], note.allNotes[40][1], 
-      note.allNotes[40][2], 1)
-  c1 = Chord("chrd", [n1,n2,n3]) 
-  audio = I1.sumSines([n1, n2, n3], 1)
-  c1.play(audio)
 
 if __name__ == "__main__":
   main()

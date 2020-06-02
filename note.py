@@ -28,24 +28,24 @@ class Note(object):
     self.name = name
     self.freq = freq
 
-  def calcSine(self, seconds):
+  def calc_sine(self, seconds):
     x = np.linspace(0, seconds, int(seconds * SAMPLE_RATE), False)
     y = np.sin(x * self.freq * 2 * np.pi)
     return y
 
-  def calcAudio(self, seconds):
+  def calc_audio(self, seconds):
     num_samples = seconds * SAMPLE_RATE
-    y = self.calcSine(seconds)
+    y = self.calc_sine(seconds)
     audio = envelope(seconds) * y * (2**15 - 1) /np.max(np.abs(y)) 
     audio = y * (2**15 - 1) /np.max(np.abs(y)) 
     audio = audio.astype(np.int16)
     return audio
 
   # Don't think this is used yet. Might need revamping:
-  def calcNotes(self, seconds):
+  def calc_notes(self, seconds):
     sines = np.zeros(0)
     for note in notes:
-       audio = note.calcAudio(seconds)
+       audio = note.calc_audio(seconds)
        np.append(sines, sine)
     return sines
 

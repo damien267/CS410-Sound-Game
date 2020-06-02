@@ -3,6 +3,7 @@ import pandas as pd
 df = pd.read_csv('freq.csv', delimiter=',')
 allNotes = [list(row) for row in df.values]
 
+# Change to full names TODO:
 intrvl = \
     ['U','m2','M2','m3','M3','P4','A4/d5','P5','m6','M6','m7','M7','O']  
 
@@ -22,6 +23,8 @@ patterns = {
   'chromatic' : [0,1,2,3,4,5,6,7,8,9,10,11,12], \
   'whole_tone' : [0,2,4,6,8,10,12],
 }
+
+
 
 chords = {
   'major' : [0,4,7],

@@ -10,7 +10,7 @@ SAMPLE_RATE = 8000
 
 ##### ENVELOPE #####
 
-def envelope(seconds, attack_time=.001, release_time=.001):
+def envelope(seconds, attack_time=.001, release_time=.01):
   num_samples = int(seconds * SAMPLE_RATE)
   attack = int(attack_time * SAMPLE_RATE)
   release =  int(release_time * SAMPLE_RATE)
@@ -25,7 +25,6 @@ def envelope(seconds, attack_time=.001, release_time=.001):
 class Note(object):
   altname = None
   def __init__(self, name, freq):
-
     self.name = name
     self.freq = freq
 
@@ -51,7 +50,7 @@ class Note(object):
     return sines
 
 def main():
-  print("dogs")
+  print("")
 
 if __name__ == "__main__":
   main()

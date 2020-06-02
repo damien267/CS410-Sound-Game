@@ -1,13 +1,22 @@
 import numpy as np
 import simpleaudio as sa
 import math
-from note import *
+from note import envelope, Note, SAMPLE_RATE
 from data import *
 
 def play(audio):
   play = sa.play_buffer(audio, 1, 2, SAMPLE_RATE)
   play.wait_done()
-
+  
+def playInterval(self, seconds=1):
+    # Choose from range for lo note:
+    lo_index = random.randint(45, 57)
+    hi_index = lo_index + random.randint(0, 12)
+    intrvl = Interval([list(nd)[lo_index], list(nd)[hi_index]])
+    audio = intrvl.sumSines(seconds)
+    play(audio)
+    return self.name
+   
 ##### Interval #####
 class Interval(object):
   def __init__(self, theNotes):
@@ -70,11 +79,16 @@ class Scale(Interval):
       play(s)
 
 def main():
-  ##### SCALE TEST #####
-  sc = Scale('lydian')
-  sc.playScale()
+  ##### CHORD TEST #####
+  #chrd = Chord([nd['A4'], nd['C5'], nd['E5']]) 
+  #chrd = Chord([allNotes[44], allNotes[48], allNotes[53]])
+  #audio = chrd.sumSines(1)
+  #chrd.playArpeg()
+  #play(audio)
+  #print(nd)
+  #print(allNotes)
 
-
+ 
 if __name__ == "__main__":
   main()
 

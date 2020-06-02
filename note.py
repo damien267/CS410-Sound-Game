@@ -10,7 +10,7 @@ SAMPLE_RATE = 8000
 
 ##### ENVELOPE #####
 
-def envelope(seconds, attack_time=.001, release_time=.01):
+def envelope(seconds, attack_time=.001, release_time=.1):
   num_samples = int(seconds * SAMPLE_RATE)
   attack = int(attack_time * SAMPLE_RATE)
   release =  int(release_time * SAMPLE_RATE)

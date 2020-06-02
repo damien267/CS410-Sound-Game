@@ -3,19 +3,6 @@ import pandas as pd
 df = pd.read_csv('freq.csv', delimiter=',')
 allNotes = [list(row) for row in df.values]
 
-df = pd.read_csv('frequencies.csv', delimiter=',')
-noteDict = [list(row) for row in df.values]
-nd = dict(noteDict)
-
-df = pd.read_csv('freq_to_note.csv', delimiter=',')
-freq2note = [list(row) for row in df.values]
-freq_to_note = dict(freq2note)
-
-# Should fix to import indices as int:
-df = pd.read_csv('freq_to_index.csv', delimiter=',')
-freq2index = [list(row) for row in df.values]
-freq_to_index = dict(freq2index)
-
 intrvl = \
     ['U','m2','M2','m3','M3','P4','A4/d5','P5','m6','M6','m7','M7','O']  
 
@@ -38,6 +25,29 @@ patterns = {
 
 chords = {
   'major' : [0,4,7],
-  'minor' : [0,3,7]
+  'minor' : [0,3,7],
+  'diminished' : [0,3,6],
+  'augmented' : [0,4,8],
+  'dominant 7th' : [0,4,7,10],
+  'dominant 7th (b5)' : [0,4,7,10],
+  'major 7th' : [0,4,7,10],
+  'major 7th (minor)' : [0,3,7,11],
+  'diminished 7th' : [0,4,7,10],
+  'half diminished' : [0,4,7,10],
+  'augmented 7th' : [0,4,8,10],
+  '6th (major)' : [0,4,7,9],
+  '6th (minor)' : [0,4,7,9],
+  'add 9' : [0,4,7,14],
+  '6-9' : [0,4,7,9,14],
+  '9th' : [0,4,7,10,14], 
+  'minor 9th' : [0,3,7,10,14], 
+  'flat 9th' : [0,4,7,10,13], 
+  'sharp 9th' : [0,4,7,10,15], 
+  '9th (major 7th)' : [0,4,7,11,15], 
+  'minor 11th' : [0,3,7,10,14,16,17], 
+  'sharp 11th' : [0,4,7,10,14,16,18], 
+  '13th' : [0,4,7,10,14,16,20], 
+  'minor 13th' : [0,3,7,10,14,16,20], 
+  'flat 13th' : [0,4,7,10,14,16,19], 
 }
 

@@ -21,10 +21,15 @@ AWARD_POINTS = 5
 COUNT = 1
 
 # DEFINE CORRECT ANSWER HERE
-correct_answer = "amy"
+correct_answer = "A4/d5"
 
 # Getting a random selection from possible_answers to fill multiple choice options
-possible_answers = ["amy","bob","cat","dan","elm","fig","gin","ham","ink","jam"]
+possible_answers = ["U","m2","M2","m3","M3","P4","A4/d5","m6","M6","m7", "0"]
+
+# Uncomment to add more false values to possible answers
+#false_answers = ["P5","M5","m5","A4/d3","m8"]
+#possible_answers.extend(false_answers)
+
 answers_used = []
 choices = []
 choices.append(correct_answer)
@@ -106,6 +111,7 @@ while round < 3:
     print("Playing interval...\n")
     time.sleep(0.5)
 
+# PLAY INTERVAL<--------------------------------------
 
     # REPLAY INTERVAL loop. Will continue to ask until y,n,q is pressed
     replay_interval = None

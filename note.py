@@ -6,11 +6,11 @@ import math
 
 ##### GLOBALS #####
 
-SAMPLE_RATE = 8000
+SAMPLE_RATE = 48000
 
 ##### ENVELOPE #####
 
-def envelope(seconds, attack_time=.001, release_time=.1):
+def envelope(seconds, attack_time=0.01, release_time=0.05):
   num_samples = int(seconds * SAMPLE_RATE)
   attack = int(attack_time * SAMPLE_RATE)
   release =  int(release_time * SAMPLE_RATE)

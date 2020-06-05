@@ -7,6 +7,11 @@
 import time
 import random
 
+from note import envelope, Note, SAMPLE_RATE
+from interval import play, rand_interval, rand_chord, rand_scale, play_arpeg, Interval, Chord, Scale   
+from data import *
+from theme import play_theme
+
 # Dummy container for saved sounds, to check compilation
 playable = ["snd1.wav", "snd2.wav"] #NOT USED YET<-------------
 # List to add sounds once played.
@@ -15,16 +20,29 @@ played = [] #NOT USED YET<-------------
 
 
 SCORE = 0
-round = 1
+# *** Changed var name so it wouldn't clash with round() function:
+game_round = 1
 GUESSES = 0
 AWARD_POINTS = 5
 COUNT = 1
 
+# Get interval/chord/scale object:
+interval_to_guess = rand_interval()
+chord_to_guess = rand_chord()
+scale_to_guess = rand_scale()
+
 # DEFINE CORRECT ANSWER HERE
-correct_answer = "A4/d5"
+#correct_answer = "A4/d5"
+correct_answer = interval_to_guess.name
+#correct_answer = chord_to_guess.name
+#correct_answer = scale_to_guess.name
 
 # Getting a random selection from possible_answers to fill multiple choice options
-possible_answers = ["U","m2","M2","m3","M3","P4","A4/d5","m6","M6","m7", "0"]
+
+# Intervals/Chords/Scales defined in data.py list intervals:
+possible_answers = intervals 
+#possible_answers = list(chords.keys())
+#possible_answers = list(scales.keys())
 
 # Uncomment to add more false values to possible answers
 #false_answers = ["P5","M5","m5","A4/d3","m8"]
@@ -59,12 +77,12 @@ def increment_GUESSES():
     GUESSES += 1
 
 def increment_round():
-    global round
-    round += 1
+    global game_round
+    game_round += 1
 
 def decrement_round():
-    global round
-    round -= 1
+    global game_round
+    game_round -= 1
 
 
 def fill_choices():
@@ -90,6 +108,7 @@ def fill_choices():
 print ("Welcome to CS410P Sound, the game!!\n")
 
 # PLAY THEME MUSIC <-----------
+play_theme()
 
 name = input("Please enter your name:")
 print("\n   Welcome, " + name, "Lets get started...\n")
@@ -97,12 +116,12 @@ print("\n   Welcome, " + name, "Lets get started...\n")
 # PAUSE 1 sec
 time.sleep(1)
 
-while round < 3:
+while game_round < 3:
 
     
-    print("Beginning round " + str(round), "...\n")
+    print("Beginning round " + str(game_round), "...\n")
     print("   -------------       ---------------")
-    print("   |  Round " + str(round), " |       |  Score - " + str(SCORE), " |")  
+    print("   |  Round " + str(game_round), " |       |  Score - " + str(SCORE), " |")  
     print("   -------------       ---------------")
     print("\n")
 
@@ -113,6 +132,11 @@ while round < 3:
 
 # PLAY INTERVAL<--------------------------------------
 
+    # Play a random interval/chord/scale for user to guess: 
+    interval_to_guess.play_interval()
+    #chord_to_guess.play_chord()
+    #scale_to_guess.play_scale()
+
     # REPLAY INTERVAL loop. Will continue to ask until y,n,q is pressed
     replay_interval = None
     while replay_interval not in ("y","n","q"):
@@ -120,8 +144,19 @@ while round < 3:
         if replay_interval == "y":
             print("Replaying interval...\n")
             time.sleep(1)
+
+            # If user wants to hear the interval/chord/scale again: 
+            interval_to_guess.play_interval()
+            #chord_to_guess.play_chord()
+            #scale_to_guess.play_scale()
+
         elif replay_interval == "n":
             break
+
+        # If Interval/Chord, possible option to hear notes separately (Interval) or arpeggio (Chord):
+        elif replay_interval == "a":
+            chord_to_guess.play_arpeg()
+
         else: 
             print("Invalid input, please try again...\n")
 
@@ -189,7 +224,7 @@ while round < 3:
     increment_round()
 
 decrement_round()
-print("Your final score is " + str(SCORE), ", after " + str(round), " rounds!")
+print("Your final score is " + str(SCORE), ", after " + str(game_round), " rounds!")
 if SCORE > 5:
     print("      GREAT JOB!!!!")
 elif SCORE > 10:

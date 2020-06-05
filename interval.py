@@ -21,24 +21,24 @@ def rand_interval():
   lo_index = random.randint(45, 57)
   hi_index = lo_index + random.randint(0, 12)
   the_interval = Interval([lo_index, hi_index])
-  the_interval.play_interval()
+  #the_interval.play_interval()
   return the_interval
 
 def rand_chord():
   rand_chord = random.randint(0, 24)  
   a_chord = list(chords)[rand_chord] 
   the_chord = Chord(a_chord)
-  the_chord.play_chord()
+  #the_chord.play_chord()
   return the_chord
 
 def rand_scale():
   rand_scale = random.randint(0, 13)
-  a_scale = list(patterns)[rand_scale]  
+  a_scale = list(scales)[rand_scale]  
   the_scale = Scale(a_scale)
-  the_scale.play_scale()
+  #the_scale.play_scale()
   return the_scale
 
-def playArpeg(chord_name, seconds=.5):
+def play_arpeg(chord_name, seconds=.5):
   the_chord = Chord(chord_name)
   for note in the_chord.notes:
     n = note.calc_audio(seconds)
@@ -60,8 +60,8 @@ class Interval(object):
     play(audio)
 
    # Add ability to play argeggio, if desired:
-  def replay_interval(self, arpeg=False):
-    self.play_interval(arpeg)
+ # def replay_interval(self, arpeg=False):
+ #   self.play_interval(arpeg)
 
   def sum_sines(self, seconds):
     num_samples = seconds * SAMPLE_RATE
@@ -74,7 +74,7 @@ class Interval(object):
     audio = audio.astype(np.int16)
     return audio
 
-  def playSeparately(self, seconds=.25):
+  def play_arpeg(self, seconds=.25):
     for note in self.notes:
       n = note.calc_audio(seconds)
       #TODO Needs to play more smoothly:
@@ -105,7 +105,7 @@ class Scale(Interval):
   def __init__(self, pattern):
     self.offset = 48
     self.name = pattern  
-    self.pattern = patterns[pattern]
+    self.pattern = scales[pattern]
     self.notes = [] # These are Note objects.
     for n in self.pattern:
       self.notes.append(Note(all_notes[n + self.offset][0], \
@@ -121,8 +121,8 @@ class Scale(Interval):
     for s in a_scale:
       play(s)
 
-def replay_scale(self, seconds=.25):
-  self.play_scale()
+  def replay_scale(self, seconds=.25):
+    self.play_scale()
 
 def main():
   ### Tests ###

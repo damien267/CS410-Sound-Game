@@ -3,24 +3,24 @@ import pandas as pd
 df = pd.read_csv('freq.csv', delimiter=',')
 all_notes = [list(row) for row in df.values]
 
-# Change to full names TODO:
 intervals = \
-    ['U','m2','M2','m3','M3','P4','A4/d5','P5','m6','M6','m7','M7','O']  
+    ['Unison','minor 2nd','Major 2nd','minor 3rd','Major 3rd','Perfect 4th','Augmented 4th / diminished 5th',
+        'Perfect 5th','minor 6th','Major 6th','minor 7th','Major 7th','Octave']  
 
-patterns = {
-  'major' : [0,2,4,5,7,9,11,12], \
-  'dorian' : [0,2,3,5,7,9,10,12], \
-  'phrygian' : [0,1,3,5,7,8,10,12], \
-  'lydian' : [0,2,4,6,7,9,11,12], \
-  'mixolydian' : [0,2,4,5,7,9,10,12], \
-  'minor' : [0,2,3,5,7,8,10,12], \
-  'locrian' : [0,1,3,5,6,8,10,12], \
-  'melodic_minor' : [0,2,3,5,7,9,11,12,10,8,7,5,3,2,0], \
-  'harmonic_minor' : [0,2,3,5,7,8,11,12,10,8,7,5,3,2,0], \
-  'pentatonic_major' : [0,2,4,7,9,12], \
-  'pentatonic_minor' : [0,2,3,7,9,12], \
-  'half_diminshed' : [0,2,3,5,6,8,9,11,12], \
-  'chromatic' : [0,1,2,3,4,5,6,7,8,9,10,11,12], \
+scales = {
+  'major' : [0,2,4,5,7,9,11,12],
+  'dorian' : [0,2,3,5,7,9,10,12],
+  'phrygian' : [0,1,3,5,7,8,10,12],
+  'lydian' : [0,2,4,6,7,9,11,12],
+  'mixolydian' : [0,2,4,5,7,9,10,12],
+  'minor' : [0,2,3,5,7,8,10,12],
+  'locrian' : [0,1,3,5,6,8,10,12],
+  'melodic_minor' : [0,2,3,5,7,9,11,12,10,8,7,5,3,2,0],
+  'harmonic_minor' : [0,2,3,5,7,8,11,12,10,8,7,5,3,2,0],
+  'pentatonic_major' : [0,2,4,7,9,12],
+  'pentatonic_minor' : [0,2,3,7,9,12],
+  'half_diminshed' : [0,2,3,5,6,8,9,11,12],
+  'chromatic' : [0,1,2,3,4,5,6,7,8,9,10,11,12],
   'whole_tone' : [0,2,4,6,8,10,12],
 }
 

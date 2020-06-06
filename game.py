@@ -32,8 +32,8 @@ chord_to_guess = rand_chord()
 scale_to_guess = rand_scale()
 
 # DEFINE CORRECT ANSWER HERE
-#correct_answer = "A4/d5"
-#correct_answer = interval_to_guess.name
+correct_answer = interval_to_guess.name
+
 #correct_answer = chord_to_guess.name
 correct_answer = scale_to_guess.name
 
@@ -89,10 +89,6 @@ def fill_choices():
     random_choice = random.choice(possible_answers)
 
     while COUNT < 4:
-        #if random_choice == correct_answer:
-            #fill_choices()
-        #if len(choices) == len(possible_answers):
-            #break
         if random_choice in answers_used:
             fill_choices()
         else:
@@ -116,7 +112,8 @@ print("\n   Welcome, " + name, "Lets get started...\n")
 # PAUSE 1 sec
 time.sleep(1)
 
-while game_round < 3:
+# Declare how many rounds to play
+while game_round < 2:
 
     
     print("Beginning round " + str(game_round), "...\n")
@@ -139,9 +136,13 @@ while game_round < 3:
 
     # REPLAY INTERVAL loop. Will continue to ask until y,n,q is pressed
     replay_interval = None
-    while replay_interval not in ("y","n","q"):
-        replay_interval = input("Would you like to hear the interval again? (y/n)\n")
-        if replay_interval == "y":
+    while replay_interval not in ("c","q"):
+        print("Would you like to: ")
+        print("\n (r)eplay sound again")
+        print(" (p)lay notes seperately")
+        print(" (c)ontinue\n")
+        replay_interval = input("Enter choice followed by the ENTER key: ")
+        if replay_interval == "r":
             print("Replaying interval...\n")
             time.sleep(1)
 
@@ -150,18 +151,22 @@ while game_round < 3:
             #chord_to_guess.play_chord()
             scale_to_guess.play_scale()
 
-        elif replay_interval == "n":
+        elif replay_interval == "c":
             break
 
         # If Interval/Chord, possible option to hear notes separately (Interval) or arpeggio (Chord):
-        elif replay_interval == "a":
-            interval_to_guess.play_arpeg()
-            #chord_to_guess.play_arpeg()
+        elif replay_interval == "p":
+            chord_to_guess.play_arpeg()
+
 
         else: 
             print("Invalid input, please try again...\n")
 
     # USER CHOICE SELECTION loop.
+
+    print("\n          Here are your choices...\n")
+    time.sleep(0.5)
+
 
     user_selection = None
 
@@ -171,8 +176,14 @@ while game_round < 3:
 
     while user_selection not in ("1", "2", "3", "4", "q"):
         random.shuffle(choices)
-        
-        print("\n 1) " + str(choices[0]), "\n 2) " + str(choices[1]), "\n 3) " + str(choices[2]), "\n 4) " + str(choices[3]), "\n q) QUIT\n")
+
+
+        #print("\n 1) " + str(choices[0]), "\n 2) " + str(choices[1]), "\n 3) " + str(choices[2]), "\n 4) " + str(choices[3]), "\n q) QUIT\n")
+        print("\n 1) " + str(choices[0]))
+        print(" 2) " + str(choices[1])) 
+        print(" 3) " + str(choices[2])) 
+        print(" 4) " + str(choices[3])) 
+        print(" q) QUIT\n")
         
         user_selection = input("Enter choice followed by the ENTER key:")
         print("\n")
@@ -226,7 +237,9 @@ while game_round < 3:
 
 decrement_round()
 print("Your final score is " + str(SCORE), ", after " + str(game_round), " rounds!")
-if SCORE > 5:
+if SCORE == (game_round * 5):
+    print("      PERFECT SCORE!!!!!!!!!!!!")
+elif SCORE > 5:
     print("      GREAT JOB!!!!")
 elif SCORE > 10:
     print("      EXCELLENT JOB!!!!!!!!")

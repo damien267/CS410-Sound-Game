@@ -42,7 +42,6 @@ def play_arpeg(chord_name, seconds=.5):
   the_chord = Chord(chord_name)
   for note in the_chord.notes:
     n = note.calc_audio(seconds)
-    #TODO Needs to play more smoothly:
     play(n)
 
 ##### Interval #####
@@ -59,9 +58,8 @@ class Interval(object):
     audio = self.sum_sines(seconds)
     play(audio)
 
-   # Add ability to play argeggio, if desired:
- # def replay_interval(self, arpeg=False):
- #   self.play_interval(arpeg)
+  #def replay_interval(self, arpeg=False):
+  #  self.play_interval(arpeg)
 
   def sum_sines(self, seconds):
     num_samples = seconds * SAMPLE_RATE
@@ -77,7 +75,6 @@ class Interval(object):
   def play_arpeg(self, seconds=.25):
     for note in self.notes:
       n = note.calc_audio(seconds)
-      #TODO Needs to play more smoothly:
       play(n)
 
 ##### Chord #####
@@ -95,8 +92,8 @@ class Chord(Interval):
     audio = self.sum_sines(seconds)
     play(audio)
 
-  def replay_chord(self, arpeg=False):
-    self.play_chord(self.name, arpeg)
+  #def replay_chord(self, arpeg=False):
+  #  self.play_chord(self.name, arpeg)
  
 ##### Scale #####
 class Scale(Interval):
@@ -126,8 +123,8 @@ class Scale(Interval):
     for s in a_scale:
       play(s)
 
-  def replay_scale(self, seconds=.25):
-    self.play_scale()
+  #def replay_scale(self, seconds=.25):
+  #  self.play_scale()
 
 def main():
   ### Tests ###

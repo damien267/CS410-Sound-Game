@@ -10,7 +10,7 @@ SAMPLE_RATE = 48000
 
 ##### ENVELOPE #####
 
-def envelope(seconds, attack_time=0.01, release_time=0.05):
+def envelope(seconds, attack_time=0.001, release_time=0.005):
   num_samples = int(seconds * SAMPLE_RATE)
   attack = int(attack_time * SAMPLE_RATE)
   release =  int(release_time * SAMPLE_RATE)
@@ -37,7 +37,7 @@ class Note(object):
     num_samples = seconds * SAMPLE_RATE
     y = self.calc_sine(seconds)
     audio = envelope(seconds) * y * (2**15 - 1) /np.max(np.abs(y)) 
-    audio = y * (2**15 - 1) /np.max(np.abs(y)) 
+    #audio = y * (2**15 - 1) /np.max(np.abs(y)) 
     audio = audio.astype(np.int16)
     return audio
 

@@ -33,16 +33,16 @@ scale_to_guess = rand_scale()
 
 # DEFINE CORRECT ANSWER HERE
 #correct_answer = "A4/d5"
-correct_answer = interval_to_guess.name
+#correct_answer = interval_to_guess.name
 #correct_answer = chord_to_guess.name
-#correct_answer = scale_to_guess.name
+correct_answer = scale_to_guess.name
 
 # Getting a random selection from possible_answers to fill multiple choice options
 
 # Intervals/Chords/Scales defined in data.py list intervals:
-possible_answers = intervals 
+#possible_answers = intervals 
 #possible_answers = list(chords.keys())
-#possible_answers = list(scales.keys())
+possible_answers = list(scales.keys())
 
 # Uncomment to add more false values to possible answers
 #false_answers = ["P5","M5","m5","A4/d3","m8"]
@@ -133,9 +133,9 @@ while game_round < 3:
 # PLAY INTERVAL<--------------------------------------
 
     # Play a random interval/chord/scale for user to guess: 
-    interval_to_guess.play_interval()
+    #interval_to_guess.play_interval()
     #chord_to_guess.play_chord()
-    #scale_to_guess.play_scale()
+    scale_to_guess.play_scale()
 
     # REPLAY INTERVAL loop. Will continue to ask until y,n,q is pressed
     replay_interval = None
@@ -146,16 +146,17 @@ while game_round < 3:
             time.sleep(1)
 
             # If user wants to hear the interval/chord/scale again: 
-            interval_to_guess.play_interval()
+            #interval_to_guess.play_interval()
             #chord_to_guess.play_chord()
-            #scale_to_guess.play_scale()
+            scale_to_guess.play_scale()
 
         elif replay_interval == "n":
             break
 
         # If Interval/Chord, possible option to hear notes separately (Interval) or arpeggio (Chord):
         elif replay_interval == "a":
-            chord_to_guess.play_arpeg()
+            interval_to_guess.play_arpeg()
+            #chord_to_guess.play_arpeg()
 
         else: 
             print("Invalid input, please try again...\n")

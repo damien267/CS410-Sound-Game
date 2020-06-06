@@ -111,13 +111,18 @@ class Scale(Interval):
       self.notes.append(Note(all_notes[n + self.offset][0], \
           all_notes[n + self.offset][2]))
 
-  #TODO Need to add descending:
   def play_scale(self, seconds=.25):
     a_scale = []
     for n in self.notes:
       audio = n.calc_audio(seconds)
       a_scale.append(audio)
-    #TODO Needs to play more smoothly:
+    if self.name != 'harmonic minor' and self.name != 'melodic minor' and self.name != 'half diminished':
+      rev = self.notes.copy() 
+      rev.reverse()
+      #rev = rev[1:len(rev)] 
+      for n in rev:
+        audio = n.calc_audio(seconds)
+        a_scale.append(audio)
     for s in a_scale:
       play(s)
 

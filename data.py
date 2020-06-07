@@ -30,8 +30,8 @@ chords = {
   'diminished' : [0,3,6],
   'augmented' : [0,4,8],
   'dominant 7th' : [0,4,7,10],
-  'dominant 7th (b5)' : [0,4,7,10],
-  'major 7th' : [0,4,7,10],
+  'dominant 7th (b5)' : [0,4,6,10],
+  'major 7th' : [0,4,7,11],
   'major 7th (minor)' : [0,3,7,11],
   'diminished 7th' : [0,4,7,10],
   'half diminished' : [0,4,7,10],
@@ -49,6 +49,15 @@ chords = {
   'sharp 11th' : [0,4,7,10,14,16,18], 
   '13th' : [0,4,7,10,14,16,20], 
   'minor 13th' : [0,3,7,10,14,16,20], 
-  'flat 13th' : [0,4,7,10,14,16,19], 
+  'flat 13th' : [0,4,7,10,13,19], 
 }
 
+sound_types = [intervals, chords, scales]
+
+sound_type_name = ['interval', 'chord', 'scale']
+
+#def
+#for i in range(12,25):
+#  correct_indicator[i - 12] = "base_" + str(i) + ".wav"
+
+correct_indicator = ["effects/base_12.wav","effects/base_13.wav","effects/base_14.wav","effects/base_15.wav","effects/base_16.wav","effects/base_17.wav","effects/base_18.wav","effects/base_19.wav","effects/base_20.wav","effects/base_21.wav","effects/base_22.wav","effects/base__23.wav","effects/base_24.wav"]

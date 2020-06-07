@@ -5,11 +5,9 @@ import pandas as pd
 import math
 
 ##### GLOBALS #####
-
 SAMPLE_RATE = 48000
 
 ##### ENVELOPE #####
-
 def envelope(seconds, attack_time=0.001, release_time=0.005):
   num_samples = int(seconds * SAMPLE_RATE)
   attack = int(attack_time * SAMPLE_RATE)
@@ -23,7 +21,6 @@ def envelope(seconds, attack_time=0.001, release_time=0.005):
 
 ##### Note #####
 class Note(object):
-  altname = None
   def __init__(self, name, freq):
     self.name = name
     self.freq = freq
@@ -39,14 +36,6 @@ class Note(object):
     audio = envelope(seconds) * y * (2**15 - 1) /np.max(np.abs(y)) 
     audio = audio.astype(np.int16)
     return audio
-
-  # Don't think this is used yet. Might need revamping:
-  def calc_notes(self, seconds):
-    sines = np.zeros(0)
-    for note in notes:
-       audio = note.calc_audio(seconds)
-       np.append(sines, sine)
-    return sines
 
 def main():
   print("")

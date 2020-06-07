@@ -19,23 +19,20 @@ def play(audio):
 
 def rand_interval():
   lo_index = random.randint(45, 57)
-  hi_index = lo_index + random.randint(0, 12)
+  hi_index = lo_index + random.randint(0, len(intervals) - 1)
   the_interval = Interval([lo_index, hi_index])
-  #the_interval.play_interval()
   return the_interval
 
 def rand_chord():
-  rand_chord = random.randint(0, 24)  
+  rand_chord = random.randint(0, len(chords) - 1)  
   a_chord = list(chords)[rand_chord] 
   the_chord = Chord(a_chord)
-  #the_chord.play_chord()
   return the_chord
 
 def rand_scale():
-  rand_scale = random.randint(0, 13)
+  rand_scale = random.randint(0, len(scales) - 1)
   a_scale = list(scales)[rand_scale]  
   the_scale = Scale(a_scale)
-  #the_scale.play_scale()
   return the_scale
 
 def play_arpeg(chord_name, seconds=.5):
@@ -53,24 +50,20 @@ class Interval(object):
     self.notes = [] # These are Note objects.
     for note in the_notes:
       self.notes.append(Note(all_notes[note][0], all_notes[note][2]))
-
-  def play_interval(self, seconds=2, arpeg=False):
-    audio = self.sum_sines(seconds)
-    play(audio)
-
-  #def replay_interval(self, arpeg=False):
-  #  self.play_interval(arpeg)
-
+      
   def sum_sines(self, seconds):
     num_samples = seconds * SAMPLE_RATE
     y = np.zeros(num_samples)
     for n in self.notes:
       sound = n.calc_sine(seconds)
       y += sound
-    #Not sure if floor division is OK?:
     audio = envelope(seconds) * y * (2**15 - 1) // np.max(np.abs(y))
     audio = audio.astype(np.int16)
     return audio
+ 
+  def play_sound(self, seconds=2, arpeg=False):
+    audio = self.sum_sines(seconds)
+    play(audio)
 
   def play_arpeg(self, seconds=.25):
     for note in self.notes:
@@ -88,17 +81,12 @@ class Chord(Interval):
     for note in self.chord:
       self.notes.append(Note(all_notes[note + self.offset][0], all_notes[note + self.offset][2]))
 
-  def play_chord(self, seconds=2, arpeg=False):
+  def play_sound(self, seconds=2, arpeg=False):
     audio = self.sum_sines(seconds)
     play(audio)
-
-  #def replay_chord(self, arpeg=False):
-  #  self.play_chord(self.name, arpeg)
  
 ##### Scale #####
 class Scale(Interval):
-  # A few scales have different pattern on the way down:
-  diffDown = False
   def __init__(self, pattern):
     self.offset = 48
     self.name = pattern  
@@ -108,23 +96,20 @@ class Scale(Interval):
       self.notes.append(Note(all_notes[n + self.offset][0], \
           all_notes[n + self.offset][2]))
 
-  def play_scale(self, seconds=.25):
+  def play_sound(self, seconds=.25):
     a_scale = []
     for n in self.notes:
       audio = n.calc_audio(seconds)
       a_scale.append(audio)
-    if self.name != 'harmonic minor' and self.name != 'melodic minor' and self.name != 'half diminished':
+    if self.name != 'harmonic_minor' and self.name != 'melodic_minor':
       rev = self.notes.copy() 
       rev.reverse()
-      #rev = rev[1:len(rev)] 
+      rev = rev[1:len(rev)] 
       for n in rev:
         audio = n.calc_audio(seconds)
         a_scale.append(audio)
     for s in a_scale:
       play(s)
-
-  #def replay_scale(self, seconds=.25):
-  #  self.play_scale()
 
 def main():
   ### Tests ###

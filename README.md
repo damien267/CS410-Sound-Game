@@ -25,10 +25,10 @@ To run, enter:
 ## How it Went  
 This project, written in Python, started with a proposal for a choose your own adventure type game with voice recognition to parse user choices and speech synthesis to provide user choices. It ended up as a interval/chord/scale game with no voice recognition or speech synthesis. Sometimes that's the way it goes. Installing the CMU Sphinx libraries for C and Python (see below) was a challenge. We got basic functionality going using examples from the Python Pockesphinx documentation, but opted to use the old standby, keyboard text input, to gather user responses. On the other hand, we couldn't even get Festival/Speech-Tools/Festvox fully installed and running, and abandoned that venture in favor of ensuring we'd have enough time to develop a working game.  
   
-In the end, it's a basic program that works nicely! 
+In the end, it's a basic program that works nicely! Not the most ambitious project, perhaps, but the program does successfully run as intended. Of course, it could be improved in a number of ways (generate and add more sound effects, incorporate chord inversions, use sounds other than sine wave, etc.), but we got the program to a good stopping place. What didn't go well was ... well, the *original* idea for the Course Project outlined in the Project Proposal didn't even remotely happen, so that's the big thing.  
 
 ## Testing
-Testing was limited to informal tests as we worked on the project. No unit tests were performed and no systematic approach to testing was taken.  
+Testing was limited to informal tests as we worked on the project. No unit tests were performed and no systematic approach to testing was taken. However, enough informal testing was done to know that it's pretty hard to "break" the program in its current form.  
 
 ## Technology  
 

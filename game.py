@@ -16,7 +16,9 @@ from theme import play_theme
 
 SCORE = 0
 game_round = 1
-num_rounds = -1
+
+# Default rounds is 1, player asked for number of rounds below
+num_rounds = 1
 GUESSES = 0
 AWARD_POINTS = 5
 COUNT = 1
@@ -102,23 +104,11 @@ def print_choices(first_print=True):
     if first_print == True:
         random.shuffle(choices)
 
-    print("\n") 
-    if first_print == False:
-        print(" 1) " + str(choices[0]))
-    else:
-        print(" - " + str(choices[0]))
-    if first_print == False:
-        print(" 2) " + str(choices[1]))
-    else:
-        print(" - " + str(choices[1]))
-    if first_print == False:
-        print(" 3) " + str(choices[2]))
-    else:
-        print(" - " + str(choices[2]))
-    if first_print == False:
-        print(" 4) " + str(choices[3]))
-    else:
-        print(" - " + str(choices[3]) + "\n")  
+    print("\n 1) " + str(choices[0]))
+    print(" 2) " + str(choices[1])) 
+    print(" 3) " + str(choices[2])) 
+    print(" 4) " + str(choices[3]) + "\n")  
+    #print(" q) QUIT\n")
         
 # Get the user choice for the question:
 def get_choice():
@@ -152,23 +142,37 @@ def eval_choice(user_selection):
 
 # Perform start game tasks:
 def start_game():
-   print ("Welcome to CS410P Sound, the game!!\n")
+#   print ("Welcome to CS410P Sound, the game!!\n")
+
+   print("\n")
+   print("     C        S   410PS  O       OUN     D&    M     U  SICFI")
+   print("     N   A    L   P      R      O   J   E  C   TB   YD  A    ")
+   print("      M I E  N    JON    E      S      A    N  D J E S  SEE  ")
+   print("      ME   RS     O      N      T   H   A  N   K  Y  O  U    ")
+   print("       F   O      RPLAY  ING!!   ENJ     OY    !     !  !!!!!")
+   print("\n")
+   #time.sleep(2)    
+
 
    # PLAY THEME MUSIC <-----------
    # Choose from list of themes in theme.py:
    play_theme(1)
 
    name = input("Please enter your name: ")
-   print("\n   Welcome, " + name, "!\n") 
+
+   print("\n                     OK " + name,", Lets get started...\n")
    global num_rounds
-   num_rounds = int(input("How many rounds would you like to play? "))
+   num_rounds = int(input("               How many rounds would you like to play? "))
+   print("\n")
+
+   # PAUSE 1 sec
    time.sleep(1)
 
 # Perform end game tasks:
 def end_game():
     decrement_round()
-    print("Your final score is " + str(SCORE), ", after " + str(game_round), " rounds!")
-    if SCORE == (game_round * 5):
+    print("     Your final score is " + str(SCORE), ", after " + str(game_round), " rounds!")
+    if SCORE == game_round * 5 and SCORE > 0:
         print("      PERFECT SCORE!!!!!!!!!!!!")
     elif SCORE > 5:
         print("      GREAT JOB!!!!")
@@ -186,10 +190,10 @@ start_game()
 # Declare how many rounds to play
 while game_round <= num_rounds:
 
-    print("Beginning round " + str(game_round), "...\n")
-    print("   -------------       ---------------")
-    print("   |  Round " + str(game_round), " |       |  Score: {:^3d}".format(SCORE), "|")  
-    print("   -------------       ---------------")
+    print("                         Beginning round " + str(game_round), "...\n")
+    print("                 -------------       ---------------")
+    print("                 |  Round " + str(game_round), " |       |  Score - " + str(SCORE), " |")  
+    print("                 -------------       ---------------")
     print("\n")
 
     time.sleep(1)
@@ -207,14 +211,16 @@ while game_round <= num_rounds:
 
     # REPLAY SOUND loop. Will continue to ask until y,n,q is pressed
     replay_sound = None
-    while replay_sound not in ("a","q"):
+    while replay_sound not in ("a","q","1","2","3","4"):
         print("Would you like to: ")
         print("\n (r)eplay sound")
         if sound_type != 2:
             print(" (p)lay notes seperately")
         print(" (a)nswer\n")
         replay_sound = input("Enter choice followed by the ENTER key: ")
-        if replay_sound == "r":
+        if replay_sound == "1" or replay_sound == "2" or replay_sound == "3" or replay_sound == "4":
+            eval_choice(replay_sound)
+        elif replay_sound == "r":
             print("Replaying " + str(sound_type_name[sound_type])  + "...\n")
             time.sleep(1)
 
@@ -235,15 +241,18 @@ while game_round <= num_rounds:
 
         else: 
             print("Invalid input, please try again...\n")
-
-    # USER CHOICE SELECTION loop.
-    print_choices(False)
-    user_selection = get_choice()
-    eval_choice(user_selection)
-
-    print("\n\n")
+    
     increment_round()
+    print("\n\n")
     COUNT = 1
+    if replay_sound == "1" or replay_sound == "2" or replay_sound == "3" or replay_sound == "4":
+        break
+    else:
+        # USER CHOICE SELECTION loop.
+        print_choices(False)
+        user_selection = get_choice()
+        eval_choice(user_selection)
+
 
 ##### END MAIN LOOP #####
 

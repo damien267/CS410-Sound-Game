@@ -1,3 +1,5 @@
+# This file contains code to generate and play the theme song for the program game.py.
+
 from note import envelope, Note, SAMPLE_RATE
 from interval import play
 from data import *

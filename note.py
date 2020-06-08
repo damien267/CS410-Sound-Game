@@ -1,3 +1,6 @@
+# Herein lies the code for the envelope (used to eliminate clicks upon note changes),
+# as well as the Note class and its functions.
+
 import numpy as np
 import simpleaudio as sa
 import random
@@ -18,7 +21,7 @@ def envelope(seconds, attack_time=0.001, release_time=0.005):
     env = np.append(env, rel_env)
     return env
 
-  ##### Note #####
+##### Note #####
 class Note(object):
     def __init__(self, name, freq):
         self.name = name

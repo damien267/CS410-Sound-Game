@@ -8,19 +8,15 @@ import time
 import random
 import simpleaudio as sa
 
+# Modules created for the Course Project:
 from note import envelope, Note, SAMPLE_RATE
 from interval import play, rand_interval, rand_chord, rand_scale, play_arpeg, Interval, Chord, Scale   
 from data import *
 from theme import play_theme
 
-# Dummy container for saved sounds, to check compilation
-playable = ["snd1.wav", "snd2.wav"] #NOT USED YET<-------------
-# List to add sounds once played.
-played = [] #NOT USED YET<-------------
-
 SCORE = 0
 game_round = 1
-num_rounds = 4
+num_rounds = -1
 GUESSES = 0
 AWARD_POINTS = 5
 COUNT = 1
@@ -57,10 +53,6 @@ def choose_sound():
     global possible_answers
     possible_answers = list(sound_types[sound_type])
 
-    # Uncomment to add more false values to possible answers
-    #false_answers = ["P5","M5","m5","A4/d3","m8"]
-    #possible_answers.extend(false_answers)
-
     global answers_used
     answers_used = []
     global choices
@@ -68,29 +60,15 @@ def choose_sound():
     choices.append(correct_answer)
     possible_answers.remove(correct_answer)
 
-    temp_list = possible_answers.copy() #NOT USED <---------------
-
     return to_guess
 
 def increment_COUNT():
     global COUNT
     COUNT += 1
 
-def count_reset():
-    global COUNT
-    COUNT = 1
-
 def increment_SCORE():
     global SCORE
     SCORE += AWARD_POINTS
-
-def reset_SCORE():
-    global SCORE
-    SCORE = 0
-
-def increment_GUESSES():
-    global GUESSES
-    GUESSES += 1
 
 def increment_round():
     global game_round
@@ -110,7 +88,6 @@ def fill_choices():
         else:
             answers_used.append(random_choice)
             choices.append(random_choice)
-            #print("Choice " + str(COUNT), " = " + str(choices))
             increment_COUNT()
             break
 
@@ -119,80 +96,59 @@ def print_choices(first_print=True):
     print("\n          Here are your choices...\n")
     time.sleep(0.5)
 
-    user_selection = None
-
     for a in range(0,4):
         fill_choices()
 
     if first_print == True:
         random.shuffle(choices)
 
-    #print("\n 1) " + str(choices[0]), "\n 2) " + str(choices[1]), "\n 3) " + str(choices[2]), "\n 4) " + str(choices[3]), "\n q) QUIT\n")
-    print("\n 1) " + str(choices[0]))
-    print(" 2) " + str(choices[1])) 
-    print(" 3) " + str(choices[2])) 
-    print(" 4) " + str(choices[3]) + "\n")  
-    #print(" q) QUIT\n")
+    print("\n") 
+    if first_print == False:
+        print(" 1) " + str(choices[0]))
+    else:
+        print(" - " + str(choices[0]))
+    if first_print == False:
+        print(" 2) " + str(choices[1]))
+    else:
+        print(" - " + str(choices[1]))
+    if first_print == False:
+        print(" 3) " + str(choices[2]))
+    else:
+        print(" - " + str(choices[2]))
+    if first_print == False:
+        print(" 4) " + str(choices[3]))
+    else:
+        print(" - " + str(choices[3]) + "\n")  
         
 # Get the user choice for the question:
 def get_choice():
-        user_selection = input("Enter choice followed by the ENTER key:")
-        print("\n")
-        return user_selection
+    user_selection = input("Enter choice followed by the ENTER key: ")
+    print("\n")
+    while user_selection not in ("1","2","3","4"):
+        user_selection = input(
+        "That wasn't a valid selection. Choose '1', '2', '3', '4', followed by the ENTER key: ")
+    return user_selection
 
 # Determine if user choice is correct. Play a sound effect if it is:
 def eval_choice(user_selection):
-     
-    if user_selection == "1":
-    #print("choices " + str(choices[0]), "  correct answer " + str(correct_answer[0]), "\n")
-        if choices[0] == correct_answer:
-            print("CORRECT ANSWER, YOU WIN " + str(AWARD_POINTS), " POINTS!")
-            increment_SCORE()
-        else:
-            print("selection 1 is incorrect") # CHOICE 1
-            time.sleep(1)
+    
+    user_choice = choices[int(user_selection) - 1] 
+    if user_choice == correct_answer:
+        print("CORRECT ANSWER, YOU WIN " + str(AWARD_POINTS), " POINTS!")
+        increment_SCORE()
+        time.sleep(.5)
 
-    elif user_selection == "2":
-        #print("choices " + str(choices[1]), "  correct answer " + str(correct_answer[0]), "\n")
-        if choices[1] == correct_answer:
-            print("CORRECT ANSWER, YOU WIN " + str(AWARD_POINTS), " POINTS!")
-            increment_SCORE()
-        else:
-            print("selection 2 is incorrect") # CHOICE 2
-            time.sleep(1)
-
-    elif user_selection == "3":
-        #print("choices " + str(choices[2]), "  correct answer " + str(correct_answer[0]), "\n")
-        if choices[2] == correct_answer:
-            print("CORRECT ANSWER, YOU WIN " + str(AWARD_POINTS), " POINTS!")
-            increment_SCORE()
-        else:
-            print("selection 3 is incorrect") # CHOICE 3
-            time.sleep(1)
-
-    elif user_selection == "4":
-        #print("choices " + str(choices[3]), "  correct answer " + str(correct_answer[0]), "\n")
-        if choices[3] == correct_answer:
-            print("CORRECT ANSWER, YOU WIN " + str(AWARD_POINTS), " POINTS!")
-            increment_SCORE()
-        else:
-            print("selection 4 is incorrect") # CHOICE 4
-            time.sleep(1)
-
+        # Play sound effect for correct answer:
+        global num_correct
+        play_wav(correct_indicator[num_correct])
+        num_correct += 1
     elif user_selection == "q":
-        #print("Thank you for playing, goodbye...") # QUIT
-        # PAUSE 1 sec
-        #time.sleep(1)
-        return #break
-    else:
+        return
+    elif user_selection not in ("1","2","3","4","q"):
         print("Invalid input, please try again")
-
-    # Play sound effect for correct answer:
-    global num_correct
-    if choices[int(user_selection) - 1] == correct_answer:
-      time.sleep(.5)
-      play_wav(correct_indicator[num_correct])
-      num_correct += 1
+    else:
+        print(user_choice + " is incorrect. The correct answer is: ", correct_answer) # CHOICE 1
+        time.sleep(1)
 
 # Perform start game tasks:
 def start_game():
@@ -200,12 +156,12 @@ def start_game():
 
    # PLAY THEME MUSIC <-----------
    # Choose from list of themes in theme.py:
-   play_theme(2)
+   play_theme(1)
 
    name = input("Please enter your name: ")
-   print("\n   Welcome, " + name, "Lets get started...\n")
-
-   # PAUSE 1 sec
+   print("\n   Welcome, " + name, "!\n") 
+   global num_rounds
+   num_rounds = int(input("How many rounds would you like to play? "))
    time.sleep(1)
 
 # Perform end game tasks:
@@ -219,8 +175,7 @@ def end_game():
     elif SCORE > 10:
         print("      EXCELLENT JOB!!!!!!!!")
     time.sleep(1)
-    print("\nThank you for playing, goodbye...\n") # QUIT
-    # PAUSE 1 sec
+    print("\nThank you for playing, goodbye...\n")
     time.sleep(1)
 
 # -------------------------->Game start<-------------------------------------#
@@ -233,21 +188,20 @@ while game_round <= num_rounds:
 
     print("Beginning round " + str(game_round), "...\n")
     print("   -------------       ---------------")
-    print("   |  Round " + str(game_round), " |       |  Score - " + str(SCORE), " |")  
+    print("   |  Round " + str(game_round), " |       |  Score: {:^3d}".format(SCORE), "|")  
     print("   -------------       ---------------")
     print("\n")
 
     time.sleep(1)
     
    # PLAY INTERVAL<--------------------------------------
-
     to_guess = choose_sound() 
    
     #Play randomly selected sound here:
     print("Playing " + sound_type_name[sound_type] + "...\n")
     time.sleep(0.5)
 
-    # Play a random interval/chord/scale for user to guess: 
+    # Play a random interval/chord/scale for user to guess, and print the choices: 
     to_guess.play_sound()
     print_choices()
 
@@ -255,7 +209,7 @@ while game_round <= num_rounds:
     replay_sound = None
     while replay_sound not in ("a","q"):
         print("Would you like to: ")
-        print("\n (r)eplay sound again")
+        print("\n (r)eplay sound")
         if sound_type != 2:
             print(" (p)lay notes seperately")
         print(" (a)nswer\n")

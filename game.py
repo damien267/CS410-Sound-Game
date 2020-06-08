@@ -10,7 +10,7 @@ import simpleaudio as sa
 
 # Modules created for the Course Project:
 from note import envelope, Note, SAMPLE_RATE
-from interval import play, rand_interval, rand_chord, rand_scale, play_arpeg, Interval, Chord, Scale   
+from interval import play, rand_interval, rand_chord, rand_scale, Interval, Chord, Scale   
 from data import *
 from theme import play_theme
 
@@ -22,7 +22,6 @@ num_rounds = 1
 GUESSES = 0
 AWARD_POINTS = 5
 COUNT = 1
-
 num_correct = 0
 sound_type = -1
 correct_answer = ""
@@ -130,19 +129,18 @@ def eval_choice(user_selection):
 
         # Play sound effect for correct answer:
         global num_correct
-        play_wav(correct_indicator[num_correct])
+        play_wav(correct_indicator[num_correct % 13])
         num_correct += 1
     elif user_selection == "q":
         return
     elif user_selection not in ("1","2","3","4","q"):
         print("Invalid input, please try again")
     else:
-        print(user_choice + " is incorrect. The correct answer is: ", correct_answer) # CHOICE 1
-        time.sleep(1)
+        print("\n" + user_choice + " is INCORRECT.\nThe CORRECT answer is:", correct_answer)
+        time.sleep(3)
 
 # Perform start game tasks:
 def start_game():
-#   print ("Welcome to CS410P Sound, the game!!\n")
 
    print("\n")
    print("     C        S   410PS  O       OUN     D&    M     U  SICFI")
@@ -151,12 +149,11 @@ def start_game():
    print("      ME   RS     O      N      T   H   A  N   K  Y  O  U    ")
    print("       F   O      RPLAY  ING!!   ENJ     OY    !     !  !!!!!")
    print("\n")
-   #time.sleep(2)    
 
 
    # PLAY THEME MUSIC <-----------
    # Choose from list of themes in theme.py:
-   play_theme(1)
+   play_theme(0)
 
    name = input("Please enter your name: ")
 
@@ -165,7 +162,6 @@ def start_game():
    num_rounds = int(input("               How many rounds would you like to play? "))
    print("\n")
 
-   # PAUSE 1 sec
    time.sleep(1)
 
 # Perform end game tasks:
@@ -187,15 +183,13 @@ def end_game():
 start_game()
 
 ##### MAIN LOOP #####
-# Declare how many rounds to play
 while game_round <= num_rounds:
 
     print("                         Beginning round " + str(game_round), "...\n")
     print("                 -------------       ---------------")
-    print("                 |  Round " + str(game_round), " |       |  Score - " + str(SCORE), " |")  
+    print("                 |  Round {:^2d}".format(game_round), "|       |  Score: {:^3d}".format(SCORE), "|")  
     print("                 -------------       ---------------")
     print("\n")
-
     time.sleep(1)
     
    # PLAY INTERVAL<--------------------------------------
@@ -211,13 +205,13 @@ while game_round <= num_rounds:
 
     # REPLAY SOUND loop. Will continue to ask until y,n,q is pressed
     replay_sound = None
-    while replay_sound not in ("a","q","1","2","3","4"):
-        print("Would you like to: ")
-        print("\n (r)eplay sound")
+    while replay_sound not in ("q","1","2","3","4"):
+        print("You can use the numbers to select the correct answer.\n")
+        print("OR, if you'd like to hear the " + sound_type_name[sound_type] + " again: ")
+        print("\n (r)eplay ", sound_type_name[sound_type])
         if sound_type != 2:
             print(" (p)lay notes seperately")
-        print(" (a)nswer\n")
-        replay_sound = input("Enter choice followed by the ENTER key: ")
+        replay_sound = input("\nEnter choice followed by the ENTER key: ")
         if replay_sound == "1" or replay_sound == "2" or replay_sound == "3" or replay_sound == "4":
             eval_choice(replay_sound)
         elif replay_sound == "r":
@@ -226,9 +220,6 @@ while game_round <= num_rounds:
 
             # If user wants to hear the interval/chord/scale again: 
             to_guess.play_sound()
-
-        elif replay_sound == "a":
-            break
 
         # If Interval/Chord, possible option to hear notes separately (Interval) or arpeggio (Chord):
         elif replay_sound == "p":
@@ -245,14 +236,14 @@ while game_round <= num_rounds:
     increment_round()
     print("\n\n")
     COUNT = 1
+    
     if replay_sound == "1" or replay_sound == "2" or replay_sound == "3" or replay_sound == "4":
-        break
+        continue
     else:
-        # USER CHOICE SELECTION loop.
+        # Show choices, get user selection and evalute:
         print_choices(False)
         user_selection = get_choice()
         eval_choice(user_selection)
-
 
 ##### END MAIN LOOP #####
 

@@ -5,3 +5,4 @@ test.py
 freq_to_index.csv
 freq_to_note.csv
 frequencies.csv
+*.html

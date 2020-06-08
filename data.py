@@ -1,3 +1,5 @@
+# This file contains the data used for the program game.py 
+
 import pandas as pd
 
 df = pd.read_csv('freq.csv', delimiter=',')
@@ -37,19 +39,19 @@ chords = {
     'half diminished' : [0,3,6,10],
     'augmented (7th)' : [0,4,8,10],
     'Major 6th' : [0,4,7,9],
-    'minor 6th' : [0,4,7,9],
+    'minor 6th' : [0,3,7,9],
     'add 9' : [0,4,7,14],
     '6-9' : [0,4,7,9,14],
     '9th' : [0,4,7,10,14], 
     'minor 9th' : [0,3,7,10,14], 
     'flat 9th' : [0,4,7,10,13], 
     'sharp 9th' : [0,4,7,10,15], 
-    '9th (Major 7)' : [0,4,7,11,15], 
-    'minor 11th' : [0,3,7,10,14,16,17], 
-    'sharp 11th' : [0,4,7,10,14,19], 
-    '13th' : [0,4,7,10,14,20], 
-    'minor 13th' : [0,3,7,10,14,16,20], 
-    'flat 13th' : [0,4,7,10,13,19], 
+    '9th (Major 7)' : [0,4,7,11,14], 
+    'minor 11th' : [0,3,7,10,14,17], 
+    'sharp 11th' : [0,4,7,10,14,18], 
+    '13th' : [0,4,7,10,14,21], 
+    'minor 13th' : [0,3,7,10,14,16,21], 
+    'flat 13th' : [0,4,7,10,13,20], 
 }
 
 sound_types = [intervals, chords, scales]
@@ -60,5 +62,5 @@ correct_indicator = ["effects/base_12.wav","effects/base_13.wav",
     "effects/base_14.wav","effects/base_15.wav","effects/base_16.wav",
     "effects/base_17.wav","effects/base_18.wav","effects/base_19.wav",
     "effects/base_20.wav","effects/base_21.wav","effects/base_22.wav",
-    "effects/base__23.wav","effects/base_24.wav"]
+    "effects/base_23.wav","effects/base_24.wav"]
 

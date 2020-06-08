@@ -1,11 +1,8 @@
-# Interval:
-# To play a random interval use rand_interval(). The default time is 2 seconds.
-# Chord:
-# To play a random chord, use rand_chord(). The default time is 2 seconds.
-# Scale:
-# To play a random scale, use rand_scale(). The default time is .25 seconds per note.
-#
-
+# Interval/Chord/Scale:
+# To generate a random interval/chord/scale use rand_interval()/rand_chord()/rand_scale().
+# To play an Interval/Chord/Scale, use play_sound(seconds). The default is seconds=2.
+# To play the notes of an interval separately, or a chord arpeggio, use play_arpeg().
+ 
 import numpy as np
 import simpleaudio as sa
 import math
@@ -34,12 +31,6 @@ def rand_scale():
     a_scale = list(scales)[rand_scale]  
     the_scale = Scale(a_scale)
     return the_scale
-
-def play_arpeg(chord_name, seconds=.5):
-    the_chord = Chord(chord_name)
-    for note in the_chord.notes:
-        n = note.calc_audio(seconds)
-        play(n)
 
 ##### Interval #####
 class Interval(object):
@@ -72,9 +63,9 @@ class Interval(object):
 
 ##### Chord #####
 class Chord(Interval):
-    inversion = 0 
+    inversion = 0 # Didn't get to adding this functionality, but leaving it here for the future.
     def __init__(self, name):
-        self.offset = 48
+        self.offset = random.randint(44,52) # So the starting point is not always the same.
         self.name = name
         self.chord = chords[name] 
         self.notes = [] # These are Note objects.
@@ -88,7 +79,7 @@ class Chord(Interval):
 ##### Scale #####
 class Scale(Interval):
     def __init__(self, pattern):
-        self.offset = 48
+        self.offset = random.randint(44,52) # So the starting point is not always the same.
         self.name = pattern  
         self.pattern = scales[pattern]
         self.notes = [] # These are Note objects.
